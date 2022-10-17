@@ -1,4 +1,4 @@
-const JobInfo = require("../model/jobInfo");
+const JobInfo = require("../model/JobInfo");
 
 module.exports.getJobInfoService =async()=>{
     const result =await JobInfo.find({});
