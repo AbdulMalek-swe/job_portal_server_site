@@ -6,4 +6,5 @@ router
     .post("/sign",userController.userSign)
     .post("/login",userController.userLogin)
     .post("/me",veryfitoken, userController.getMe)
+    .get("/sign/confirmation/:token", userController.confirmationMail)
 module.exports = router;    
