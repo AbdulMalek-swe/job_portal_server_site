@@ -7,8 +7,8 @@ const {
 // getting job 
 module.exports.getJobInfo = async (req, res) => {
     try {
-        const getInfo = req.body;
-        const result = await getJobInfoService(getInfo)
+         console.log(req.user);
+        const result = await getJobInfoService(req.user)
         res.status(200).json({
             message: "successfully get data",
             data: result

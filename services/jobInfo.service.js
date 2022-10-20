@@ -1,7 +1,9 @@
 const JobInfo = require("../model/JobInfo");
+const User = require("../model/User");
 
-module.exports.getJobInfoService =async()=>{
-    const result =await JobInfo.find({});
+module.exports.getJobInfoService =async(users)=>{
+    const {_id} =await User.findOne({email:users.email});
+    const result =await JobInfo.find({managerId:_id});
     return result;
 }
 module.exports.createJobInfoService =async(data)=>{

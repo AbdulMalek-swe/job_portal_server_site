@@ -29,8 +29,7 @@ const oAuth2Client = new google.auth.OAuth2(
         to: data.to, // list of receivers
         subject: data.subject,
         text: data.text,
-        html: `<b>Hey there! </b><h1 style="color:"red">this is good practice ${data.text}</h1><button>confirm mail</button>
-           <br> This is our first message sent with Nodemailer<br/>`,
+        html: `<a href={data.text}> ${data.text}</a>`,
       };
       let info = await transporter.sendMail(mailData);
       return info.messageId;

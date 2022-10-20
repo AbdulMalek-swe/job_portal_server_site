@@ -33,23 +33,32 @@ exports.userSign = async (req, res) => {
 exports.userLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        if (!email | !password) {
-            return res.status(401).json({
-                message: email ? "enter password please" : "enter email please"
-            })
+
+        if (!email || !password) {
+          return res.status(401).json({
+            status: "fail",
+            error: "Please provide your credentials",
+          });
         }
+    
         const user = await findUserByEmail(email);
+    
         if (!user) {
-            return res.status(401).json({
-                message: "can not find user"
-            })
+          return res.status(401).json({
+            status: "fail",
+            error: "No user found. Please create an account",
+          });
         }
-        const isValidPassword = user.comparePassword(password, user.password)
-        if (!isValidPassword) {
-            return res.status(401).json({
-                message: "password is mismatch"
-            })
+    
+        const isPasswordValid = user.comparePassword(password, user.password);
+        console.log(isPasswordValid)
+        if (!isPasswordValid) {
+          return res.status(403).json({
+            status: "fail",
+            error: "Password is not correct",
+          });
         }
+    
         if (user.status == "inactive" | user.status == "blocked") {
             return res.status(401).json({
                 message: user.status == 'inactive' ? "pleae contact manger to active your account" : "your acount is blocked please open new account using new gmail"

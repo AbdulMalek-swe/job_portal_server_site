@@ -44,15 +44,19 @@ const jobInfoSchema = mongoose.Schema({
     required: true
   },
   description: String,
-  candidateId: {
-    resume: {
-      type: String,
-    },
-    id: {
-      type: ObjectId,
-      ref: "cand"
-    }
+  managerId:{
+    type:ObjectId,
+    required:true
   },
+  // candidateId: {
+  //   resume: {
+  //     type: String,
+  //   },
+  //   id: {
+  //     type: ObjectId,
+  //     ref: "cand"
+  //   }
+  // },
   jobLocation: {
     type: String,
     required: true

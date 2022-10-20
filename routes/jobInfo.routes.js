@@ -1,12 +1,14 @@
 const jobController = require("../controller/jobInfo.controller");
+const { verifyrole } = require("../middleware/verifyrole");
+const { veryfitoken } = require("../middleware/verifytoken");
 const router = require("express").Router();
 router
 .route("/jobs")
-.post(jobController.createJobInfo)
+.post(veryfitoken, jobController.createJobInfo)
 
 router
 .route("/manager/jobs")
-.get(jobController.getJobInfo)
+.get(veryfitoken,verifyrole,jobController.getJobInfo)
 router
 .route("/manager/jobs/:id")
 .get(jobController.getJobInfoById)

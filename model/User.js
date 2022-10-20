@@ -73,16 +73,20 @@ const userSchema = mongoose.Schema({
 );
  
 userSchema.pre('save', function(next) {
+  if (!this.isModified("password")) {
+    //  only run if password is modified, otherwise it will change every time we save the user!
+    return next();
+  }
    const password = this.password;
    const hashPassword =  bcrypt.hashSync(password);
    this.password = hashPassword;
    this.confirmPassword = undefined;
   next();
 });
-userSchema.methods.comparePassword = function(password,hashPass){
-  const passwordCheck = bcrypt.compareSync(password,hashPass);
-  return passwordCheck
-}
+userSchema.methods.comparePassword = function (password, hash) {
+  const isPasswordValid = bcrypt.compareSync(password, hash);
+  return isPasswordValid;
+};
 userSchema.methods.generateConfirmationToken=function(){
   const token  = crypto.randomBytes(32).toString("hex");
   this.confirmationToken = token;
