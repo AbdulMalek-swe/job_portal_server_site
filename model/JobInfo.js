@@ -70,9 +70,12 @@ const jobInfoSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  // deadline:Date
+  deadline:{
+    type:Date,
+    required:true
+  }
 }, {
   timestamps: true
 })
 const JobInfo = mongoose.model("JobInfo", jobInfoSchema);
-module.exports = JobInfo;
+module.exports = JobInfo;  

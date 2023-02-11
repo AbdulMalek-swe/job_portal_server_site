@@ -16,7 +16,9 @@
     "googleapis": "^108.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.5",
+    "node-otp": "^1.2.3",
     "nodemailer": "^6.8.0",
+    "twilio": "^4.7.1",
     "validator": "^13.7.0"
   }
 }

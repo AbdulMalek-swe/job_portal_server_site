@@ -55,10 +55,7 @@ const userSchema = mongoose.Schema({
 
   shippingAddress: String,
 
-  imageURL: {
-    type: String,
-    validate: [validator.isURL, "Please provide a valid url"],
-  },
+  
   status: {
     type: String,
     default: "inactive",

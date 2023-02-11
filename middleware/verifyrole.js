@@ -1,4 +1,4 @@
-module.exports.verifyrole =  async(req,res)=>{
+module.exports.verifyrole =  async(req,res,next)=>{
        try{
         const role = req.user.role;
         if(role=='admin'|role=='manager'){
