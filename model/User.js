@@ -13,56 +13,56 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "Password is required"],
-    validate: {
-      validator: (value) =>
-        validator.isStrongPassword(value, {
-          minLength: 6,
-          minLowercase: 3,
-          minNumbers: 1,
+    // required: [true, "Password is required"],
+    // validate: {
+    //   validator: (value) =>
+    //     validator.isStrongPassword(value, {
+    //       minLength: 6,
+    //       minLowercase: 3,
+    //       minNumbers: 1,
           
-        }),
-      message: "Password {VALUE} is not strong enough.",
-    },
+    //     }),
+    //   message: "Password {VALUE} is not strong enough.",
+    // },
   },
-  confirmPassword: {
-    type: String,
-    required: [true, "Please confirm your password"],
-    validate: {
-      validator: function (value) {
-        return value === this.password;
-      },
-      message: "Passwords don't match!",
-    },
-  },
+  // confirmPassword: {
+  //   type: String,
+  //   required: [true, "Please confirm your password"],
+  //   validate: {
+  //     validator: function (value) {
+  //       return value === this.password;
+  //     },
+  //     message: "Passwords don't match!",
+  //   },
+  // },
 
-  role: {
-    type: String,
-    enum: ["candidate", "manager", "admin"],
-    default: "candidate",
-  },
-  name: {
-    type: String,
-    required: [true, "Please provide a first name"],
-    trim: true,
-    minLength: [3, "Name must be at least 3 characters."],
-    maxLength: [100, "Name is too large"],
-  },
-  contactNumber: {
-    type: String,
-    validate: [validator.isMobilePhone, "Please provide a valid contact number"],
-  },
+  // role: {
+  //   type: String,
+  //   enum: ["candidate", "manager", "admin"],
+  //   default: "candidate",
+  // },
+  // name: {
+  //   type: String,
+  //   required: [true, "Please provide a first name"],
+  //   trim: true,
+  //   minLength: [3, "Name must be at least 3 characters."],
+  //   maxLength: [100, "Name is too large"],
+  // },
+  // contactNumber: {
+  //   type: String,
+  //   validate: [validator.isMobilePhone, "Please provide a valid contact number"],
+  // },
 
-  shippingAddress: String,
+  // shippingAddress: String,
 
   
-  status: {
-    type: String,
-    default: "inactive",
-    enum: ["active", "inactive", "blocked"],
-  },
-  confirmationToken: String,
-  confirmationTokenExpires: Date,
+  // status: {
+  //   type: String,
+  //   default: "inactive",
+  //   enum: ["active", "inactive", "blocked"],
+  // },
+  // confirmationToken: String,
+  // confirmationTokenExpires: Date,
 },
 {
   timestamps: true,
@@ -77,7 +77,7 @@ userSchema.pre('save', function(next) {
    const password = this.password;
    const hashPassword =  bcrypt.hashSync(password);
    this.password = hashPassword;
-   this.confirmPassword = undefined;
+  //  this.confirmPassword = undefined;
   next();
 });
 userSchema.methods.comparePassword = function (password, hash) {

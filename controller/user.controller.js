@@ -6,17 +6,19 @@ const generateToken = require("../utils/generateToken");
 
 exports.userSign = async (req, res) => {
     try {
+        // console.log(req.body);
         const user = await signupService(req.body);
-        const token = user.generateConfirmationToken();
+        // const token = user.generateConfirmationToken();
         // const token = "abdulmalek sarkar"
+        console.log(user);
         await user.save({ validateBeforeSave: false });
-        const mailData = {
-            to: [user.email],
-            subject: "veryfy your token",
-            text: `thank u for confirm account : ${req.protocol
-                }://${req.get("host")}${req.originalUrl}/confirmation/${token}`
-        }
-        await sendMailWithGmail(mailData)
+        // const mailData = {
+        //     to: [user.email],
+        //     subject: "veryfy your token",
+        //     text: `thank u for confirm account : ${req.protocol
+        //         }://${req.get("host")}${req.originalUrl}/confirmation/${token}`
+        // }
+        // await sendMailWithGmail(mailData)
         res.status(200).json({
             message: "sign  ",
             user: user
@@ -33,7 +35,7 @@ exports.userSign = async (req, res) => {
 exports.userLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-
+         
         if (!email || !password) {
           return res.status(401).json({
             status: "fail",
@@ -42,7 +44,7 @@ exports.userLogin = async (req, res) => {
         }
     
         const user = await findUserByEmail(email);
-    
+         
         if (!user) {
           return res.status(401).json({
             status: "fail",
@@ -65,6 +67,7 @@ exports.userLogin = async (req, res) => {
             })
         }
         const token = await generateToken(user);
+        console.log(token);
         const { password: pwd, ...oneUser } = user.toObject();
         res.status(200).json({
             message: "login successfull",
@@ -81,14 +84,16 @@ exports.userLogin = async (req, res) => {
 }
 exports.getMe = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { email } = req.user;
+         
         const user = await findUserByEmail(email);
         const { password: pwd, ...profile } = user.toObject()
+        console.log(profile);
         res.status(200).json({
             message: "login successfull",
             user: profile
         })
-    }
+    } 
     catch (error) {
         res.status(401).json({
             message: "can't possible signup",
