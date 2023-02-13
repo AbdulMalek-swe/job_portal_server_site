@@ -1,4 +1,4 @@
-const  mongoose   = require("mongoose");
+const mongoose = require("mongoose");
 const crypto = require("crypto");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     //       minLength: 6,
     //       minLowercase: 3,
     //       minNumbers: 1,
-          
+
     //     }),
     //   message: "Password {VALUE} is not strong enough.",
     // },
@@ -55,7 +55,7 @@ const userSchema = mongoose.Schema({
 
   // shippingAddress: String,
 
-  
+
   // status: {
   //   type: String,
   //   default: "inactive",
@@ -64,19 +64,19 @@ const userSchema = mongoose.Schema({
   // confirmationToken: String,
   // confirmationTokenExpires: Date,
 },
-{
-  timestamps: true,
-}
+  {
+    timestamps: true,
+  }
 );
- 
-userSchema.pre('save', function(next) {
+
+userSchema.pre('save', function (next) {
   if (!this.isModified("password")) {
     //  only run if password is modified, otherwise it will change every time we save the user!
     return next();
   }
-   const password = this.password;
-   const hashPassword =  bcrypt.hashSync(password);
-   this.password = hashPassword;
+  const password = this.password;
+  const hashPassword = bcrypt.hashSync(password);
+  this.password = hashPassword;
   //  this.confirmPassword = undefined;
   next();
 });
@@ -84,13 +84,13 @@ userSchema.methods.comparePassword = function (password, hash) {
   const isPasswordValid = bcrypt.compareSync(password, hash);
   return isPasswordValid;
 };
-userSchema.methods.generateConfirmationToken=function(){
-  const token  = crypto.randomBytes(32).toString("hex");
+userSchema.methods.generateConfirmationToken = function () {
+  const token = crypto.randomBytes(32).toString("hex");
   this.confirmationToken = token;
   const date = new Date();
-  date.setDate(date.getDate()+1);
+  date.setDate(date.getDate() + 1);
   this.confirmationTokenExpires = date;
   return token;
 }
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;
